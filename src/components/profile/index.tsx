@@ -5,6 +5,9 @@ import { useState } from "react";
 
 import { classNames } from "../../util/classNames";
 import { Menu } from "@headlessui/react";
+import { useSession, signIn, signOut } from "next-auth/react";
+
+import SiginButton from "../auth/button";
 interface PROPS {
   profile: {
     name: string;
@@ -12,16 +15,18 @@ interface PROPS {
     imageUrl: string;
   };
   profileNavigation: {
+    id: string;
     name: string;
     href: string;
   }[];
 }
 export default function Profile(props: PROPS) {
+  const { data: session } = useSession();
   const [profile, setProfile] = useState(props.profile);
-  const [openMenu, setopenMenu] = useState(false);
   const [profileNavigation, setProfileNavigation] = useState(
     props.profileNavigation
   );
+
   return (
     <>
       <div className="hidden md:block w-1/4 ">
@@ -55,6 +60,18 @@ export default function Profile(props: PROPS) {
                   )}
                 </Menu.Item>
               ))}
+              <Menu.Item key={"asda"} as={"div"}>
+                {({ active }) => (
+                  <div
+                    className={classNames(
+                      active ? "bg-red-100" : "",
+                      " px-4 py-2 text-sm text-gray-700"
+                    )}
+                  >
+                    <SiginButton />
+                  </div>
+                )}
+              </Menu.Item>
             </Menu.Items>
           </Menu>
         </div>

@@ -2,8 +2,7 @@ import NavBar from "@/components/navBar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Navbars from "@/components/teste";
-import MyDropdown from "@/components/teste";
+import Provider from "@/components/auth/session-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +18,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="flex flex-col min-h-screen m-0  items-center">
-          <NavBar />
-          {children}
-        </div>
-      </body>
+      <Provider>
+        <body className={inter.className}>
+          <div className="flex flex-col min-h-screen m-0  items-center">
+            <NavBar />
+            {children}
+          </div>
+        </body>
+      </Provider>
     </html>
   );
 }
