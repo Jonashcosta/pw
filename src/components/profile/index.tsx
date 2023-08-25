@@ -1,32 +1,25 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { classNames } from "../../util/classNames";
 import { Menu } from "@headlessui/react";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 import SiginButton from "../auth/button";
-interface PROPS {
-  profile: {
-    name: string;
-    email: string;
-    imageUrl: string;
-  };
-  profileNavigation: {
-    id: string;
-    name: string;
-    href: string;
-  }[];
-}
-export default function Profile(props: PROPS) {
-  const { data: session } = useSession();
-  const [profile, setProfile] = useState(props.profile);
-  const [profileNavigation, setProfileNavigation] = useState(
-    props.profileNavigation
-  );
+import { ProfilePROPSType, ProfileNavigationType } from "../navBar";
 
+type PROPS = {
+  profile: ProfilePROPSType;
+  setProfile: Dispatch<SetStateAction<ProfilePROPSType>>;
+
+  profileNavigation: ProfileNavigationType[];
+  setProfileNavigation: Dispatch<SetStateAction<ProfileNavigationType[]>>;
+};
+export default function Profile(props: PROPS) {
+  const { profile, setProfile, profileNavigation, setProfileNavigation } =
+    props;
   return (
     <>
       <div className="hidden md:block w-1/4 ">
@@ -36,8 +29,8 @@ export default function Profile(props: PROPS) {
               <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <Image
                   className="rounded-full"
-                  src={profile.imageUrl}
-                  alt={profile.name}
+                  src={profile?.imageUrl as string}
+                  alt={profile?.name as string}
                   width={48}
                   height={48}
                 />
