@@ -4,39 +4,51 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { classNames } from "../../../util/classNames";
 import Image from "next/image";
 import Link from "next/link";
-interface PROPS {
-  profile: {
-    name: string;
-    email: string;
-    imageUrl: string;
-  };
-  profileNavigation: {
-    name: string;
-    href: string;
-  }[];
-  navigation: {
-    name: string;
-    href: string;
-    current: boolean;
-  }[];
+
+import { ProfilePROPSType, ProfileNavigationType } from "../../navBar";
+import { Dispatch, Fragment, SetStateAction } from "react";
+import { NavegationMenuType } from "..";
+
+type PROPS = {
+  profile: ProfilePROPSType;
+  setProfile: Dispatch<SetStateAction<ProfilePROPSType>>;
+
+  profileNavigation: ProfileNavigationType[];
+  setProfileNavigation: Dispatch<SetStateAction<ProfileNavigationType[]>>;
+
+  navigation: NavegationMenuType[];
+  setNavigation: Dispatch<SetStateAction<NavegationMenuType[]>>;
+
   open: boolean;
-}
+};
 export default function MobileNav(props: PROPS) {
-  const { navigation, profileNavigation, profile, open } = props;
+  const {
+    navigation,
+    setNavigation,
+    profileNavigation,
+    setProfileNavigation,
+    profile,
+    setProfile,
+    open
+  } = props;
   return (
     <>
       <div className="md:hidden w-full h-full ">
         <div className="flex w-full h-full items-center justify-end  ">
-          <Disclosure.Button className="w-12  inline-flex  rounded-lg bg-gray-800 p-2 mr-5 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 ">
+          <Disclosure.Button className="w-12    inline-flex  items-center justify-center rounded-lg  bg-gray-800 p-2 mr-5 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 ">
             {open ? (
-              <XMarkIcon className="h-8 w-8 " />
+              <>
+                <span className="absolute -inset-0.5" />
+                <XMarkIcon className="block h-8 w-8" aria-hidden="true" />
+              </>
             ) : (
-              <Bars3Icon className="h-8 w-8 " />
+              <>
+                <Bars3Icon className="block h-8 w-8" aria-hidden="false" />
+              </>
             )}
           </Disclosure.Button>
-
           <Disclosure.Panel className="md:hidden relative">
-            <div className="absolute right-10 z-10 mt-10 w-auto rounded-lg">
+            <div className="absolute right-20 z-10 mt-10 w-auto  rounded-lg  bg-white">
               {navigation.map((item) => (
                 <Link
                   key={`mobile_${item.name}`}
@@ -47,6 +59,7 @@ export default function MobileNav(props: PROPS) {
                       : "text-gray-900 hover:bg-gray-700 hover:text-white",
                     "block rounded-md px-3 py-2 text-base font-medium"
                   )}
+                  aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Link>

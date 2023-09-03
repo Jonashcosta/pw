@@ -8,7 +8,11 @@ import { Menu } from "@headlessui/react";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 import SiginButton from "../auth/button";
-import { ProfilePROPSType, ProfileNavigationType } from "../navBar";
+import {
+  ProfilePROPSType,
+  ProfileNavigationType,
+  NavegationMenuType
+} from "../navBar";
 
 type PROPS = {
   profile: ProfilePROPSType;
@@ -16,6 +20,8 @@ type PROPS = {
 
   profileNavigation: ProfileNavigationType[];
   setProfileNavigation: Dispatch<SetStateAction<ProfileNavigationType[]>>;
+
+  handleToggle: (item: NavegationMenuType) => void;
 };
 export default function Profile(props: PROPS) {
   const { profile, setProfile, profileNavigation, setProfileNavigation } =
@@ -53,7 +59,7 @@ export default function Profile(props: PROPS) {
                   )}
                 </Menu.Item>
               ))}
-              <Menu.Item key={"asda"} as={"div"}>
+              <Menu.Item key={"sign"}>
                 {({ active }) => (
                   <div
                     className={classNames(
